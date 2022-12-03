@@ -1,0 +1,22 @@
+{
+    "formula": [
+        {
+            "name": "海象人的活力",
+            "wuxianzhichen": 10,
+            "qiangxiaoyuzhou": 2,
+            "mengjinggsuipian": 2,
+            "shenyuanshuijing": 0,
+            "yonghengzhitu": 0,
+            "yonghengshengming": 0
+        },
+        {
+            "name": "披风-极效护甲",
+            "wuxianzhichen": 15,
+            "qiangxiaoyuzhou": 2,
+            "mengjinggsuipian": 2,
+            "shenyuanshuijing": 0,
+            "yonghengzhitu": 0,
+            "yonghengshengming": 0
+        }
+    ]
+}
