@@ -24,13 +24,13 @@ func NewFormulaMgr(path string) (*FormulaMgr, error) {
 		log.Fatal(err)
 	}
 
-	data := make(map[string]int64)
 	header := make([]string, 0)
 
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 	var isFirst bool = false
 
 	for {
+		data := make(map[string]int64)
 		line, err := reader.Read()
 
 		if err == io.EOF {
@@ -79,5 +79,30 @@ func NewFormulaMgr(path string) (*FormulaMgr, error) {
 }
 
 func (m *FormulaMgr) ComputeResult(config *structs.Config, priceList *structs.Price) ([]*structs.ShowTable, error) {
-	return nil, nil
+	showList := make([]*structs.ShowTable, 0)
+
+	for _, f := range m.Data {
+		show := new(structs.ShowTable)
+		show.Name = f.Name
+
+		var total float64 = 0.0
+		for k, v := range f.Materials {
+			unitPrice, err := priceList.GetPrice(k)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			total += float64(v) * unitPrice
+		}
+
+		show.CustodyFee = N2S(float64(config.CustodyFee))
+		show.AuctionFee = N2S(total * float64(config.Percentage))
+		show.MaterialCost = N2S(total)
+		show.Total = N2S(total + total*float64(config.Percentage) + float64(config.CustodyFee))
+
+		showList = append(showList, show)
+	}
+
+	return showList, nil
 }
